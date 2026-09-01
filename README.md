@@ -1,8 +1,5 @@
 <div align="center">
-  <img src="web/public/brand/logo.svg" alt="neeldigitech.com
-/
-
-" width="330">
+  <img src="web/public/brand/logo.svg" alt="Arif Gadgets" width="330">
   <p><strong>Wholesale gadget marketplace — Cloudflare Workers + D1 API, GitHub Pages storefront.</strong></p>
 </div>
 
@@ -146,7 +143,7 @@ Steps, once the domain's nameservers point at Cloudflare:
 
 **Until the domain is ready**, give the API a temporary address instead: set
 `WORKERS_SUBDOMAIN` to a name you like and the API lands on
-`https://smartgen-gadget-api.<name>.workers.dev`. That name is account-wide and
+`https://arif-gadgets-api.<name>.workers.dev`. That name is account-wide and
 effectively permanent, so the deploy never invents one — it registers only what
 you ask for.
 
