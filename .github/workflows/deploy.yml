@@ -1,0 +1,232 @@
+name: Deploy
+
+# Production only. The github-pages environment refuses deployments from any
+# branch but the default one, so running this on a feature branch produced a
+# guaranteed red X before a single step executed. Feature branches get CI.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Pages deployment needs these; everything else is read-only.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race on the same D1 database.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  api:
+    name: Worker API
+    runs-on: ubuntu-latest
+    outputs:
+      api_url: ${{ steps.bootstrap.outputs.api_url }}
+    env:
+      # Repository secrets are named CLOUD_FLARE_*; wrangler reads the
+      # CLOUDFLARE_* spellings, so both are exported from the same source and
+      # neither value is ever echoed.
+      CLOUD_FLARE_API: ${{ secrets.CLOUD_FLARE_API }}
+      CLOUD_FLARE_ACCOUNT_ID: ${{ secrets.CLOUD_FLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUD_FLARE_API }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUD_FLARE_ACCOUNT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Creates D1 / R2 / KV on the first run, reuses them afterwards, and
+      # writes the resolved IDs into worker/wrangler.toml.
+      - name: Provision Cloudflare resources
+        id: bootstrap
+        env:
+          API_DOMAIN: ${{ vars.API_DOMAIN }}
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          WORKERS_SUBDOMAIN: ${{ vars.WORKERS_SUBDOMAIN }}
+        run: node scripts/bootstrap-cf.mjs
+
+      - name: Apply D1 migrations
+        working-directory: worker
+        run: npx wrangler d1 migrations apply arif-gadgets --remote
+
+      - name: Deploy Worker
+        working-directory: worker
+        run: npx wrangler deploy
+
+      - name: Ensure Worker secrets
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          # Steadfast courier. Optional: unset simply leaves the courier panel
+          # reporting itself as not connected.
+          # Both spellings accepted. The repository happens to hold the
+          # STEAT_FAST_* pair; reading either avoids a rename that would only
+          # exist to satisfy this file, and mirrors how CLOUD_FLARE_API is read.
+          STEADFAST_API_KEY: ${{ secrets.STEADFAST_API_KEY || secrets.STEAT_FAST_API }}
+          STEADFAST_SECRET_KEY: ${{ secrets.STEADFAST_SECRET_KEY || secrets.STEAT_FAST_SECRET_KEY }}
+          # Only needed for the push-based webhook. Without it the shop polls
+          # instead, which works — updates just arrive on refresh, not instantly.
+          # Same either-spelling reasoning as the pair above.
+          STEADFAST_WEBHOOK_TOKEN: ${{ secrets.STEADFAST_WEBHOOK_TOKEN || secrets.STEAT_FAST_WEBHOOK_TOKEN }}
+          # The Google service-account JSON key, pasted whole as one repository
+          # secret. Optional: unset leaves the Analytics panel reporting itself
+          # as not connected, same as an unset courier key.
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          # No Gemini API keys here any more — the admin assistant, support
+          # chat, daily health check, and weekly developer report all run on
+          # Cloudflare Workers AI now (see worker/src/lib/ai.ts), via the
+          # [ai] binding in wrangler.toml rather than a per-feature secret.
+          # Optional second, independent free provider, tried only if
+          # Workers AI itself fails. Absent is fine — see ai.ts.
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # Secret path segment for the weekly dev report's manual GitHub
+          # Actions trigger. Optional: unset just means that trigger button
+          # 404s and the report still runs on its Monday cron / Run now.
+          DEV_REPORT_TRIGGER_TOKEN: ${{ secrets.DEV_REPORT_TRIGGER_TOKEN }}
+          # Sends the new-order alert email (worker/src/lib/email.ts).
+          # Optional: unset just means no email goes out on checkout.
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: node scripts/provision-secrets.mjs
+
+      - name: Provision the dashboard owner
+        env:
+          D1_DATABASE_ID: ${{ steps.bootstrap.outputs.database_id }}
+          # Prefer the variable: a username is not sensitive, and storing one
+          # as a secret makes Actions redact that word everywhere it appears —
+          # including inside the API URL, which then cannot cross job boundaries.
+          ADMIN_USERNAME: ${{ vars.ADMIN_USERNAME || secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_NAME: ${{ vars.ADMIN_NAME }}
+        run: node scripts/create-admin.mjs
+
+      # Never fails the job. The Worker is already deployed by this point; a
+      # freshly registered workers.dev subdomain can take several minutes to
+      # get its TLS certificate (curl reports a handshake failure until then),
+      # and blocking the storefront on that would be wrong.
+      - name: Smoke test the deployment
+        run: |
+          URL="${{ steps.bootstrap.outputs.api_url }}"
+          if [ -z "$URL" ]; then echo "No API URL resolved — skipping"; exit 0; fi
+
+          for i in $(seq 1 12); do
+            if curl -fsS --max-time 10 "$URL/health" > /tmp/health.json 2>/dev/null; then
+              echo "API is live:"; cat /tmp/health.json; echo; exit 0
+            fi
+            echo "waiting for the Worker and its certificate ($i/12)…"
+            sleep 15
+          done
+
+          echo "::warning::$URL has not answered /health yet. On a newly registered workers.dev subdomain this is normal — the TLS certificate can take several minutes to issue, and curl reports an SSL handshake failure until it does. The Worker itself deployed successfully. Check $URL/health in a few minutes; if it is still failing, re-run this workflow."
+          exit 0
+
+  web:
+    name: Storefront
+    needs: api
+    runs-on: ubuntu-latest
+    # Belt and braces: Pages only accepts the default branch anyway.
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # A custom domain serves from the root, a project Pages site from
+      # /<repo>/, and the router's basename follows Vite's base — get this
+      # wrong and every asset 404s. Read the domain GitHub already has
+      # configured rather than relying on a variable being kept in sync.
+      - name: Resolve the Pages domain
+        id: site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+        run: |
+          # In order: the explicit variable, the CNAME file GitHub writes when
+          # you set a custom domain in the UI, then the Pages API.
+          DOMAIN="$CUSTOM_DOMAIN"
+          if [ -z "$DOMAIN" ] && [ -f CNAME ]; then
+            DOMAIN=$(tr -d '[:space:]' < CNAME)
+          fi
+          if [ -z "$DOMAIN" ]; then
+            DOMAIN=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" \
+                          -H "Accept: application/vnd.github+json" \
+                          "https://api.github.com/repos/${{ github.repository }}/pages" 2>/dev/null \
+                     | python3 -c "import sys,json;print(json.load(sys.stdin).get('cname') or '')" 2>/dev/null || true)
+          fi
+          if [ -n "$DOMAIN" ]; then
+            echo "Publishing to https://$DOMAIN (base /)"
+            echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "No custom domain — publishing to the project Pages path"
+            echo "domain=" >> "$GITHUB_OUTPUT"
+            echo "base=/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        env:
+          VITE_BASE: ${{ steps.site.outputs.base }}
+          VITE_API_BASE: ${{ needs.api.outputs.api_url }}
+        run: |
+          if [ -z "$VITE_API_BASE" ]; then
+            echo "::error::The API has no public address yet, so the storefront would have nothing to talk to. Set ONE of these repository variables and re-run: API_DOMAIN (e.g. api.arifgadget.store — recommended, wrangler creates the Cloudflare custom domain), WORKERS_SUBDOMAIN (registers your one-time *.workers.dev name), or API_BASE_URL (an address you route yourself). The Worker itself is already deployed and the database is migrated."
+            exit 1
+          fi
+          npm run build --workspace web
+
+      - name: Prepare Pages artifact
+        env:
+          CUSTOM_DOMAIN: ${{ steps.site.outputs.domain }}
+        run: |
+          # Pages serves 404.html for unknown paths; handing it the SPA shell
+          # makes client-side routes survive a hard refresh.
+          cp web/dist/index.html web/dist/404.html
+          touch web/dist/.nojekyll
+          if [ -n "$CUSTOM_DOMAIN" ]; then echo "$CUSTOM_DOMAIN" > web/dist/CNAME; fi
+
+      # Every product, category, page and blog post that exists right now —
+      # regenerated fresh on every deploy, so nothing needs hand-maintaining
+      # and nothing that was added yesterday is ever missing.
+      - name: Generate sitemap
+        env:
+          VITE_API_BASE: ${{ needs.api.outputs.api_url }}
+          CUSTOM_DOMAIN: ${{ steps.site.outputs.domain }}
+          PAGES_BASE: ${{ steps.site.outputs.base }}
+        run: |
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            SITE_URL="https://$CUSTOM_DOMAIN"
+          else
+            SITE_URL="https://${{ github.repository_owner }}.github.io${PAGES_BASE%/}"
+          fi
+          echo "Site URL for sitemap: $SITE_URL"
+          SITE_URL="$SITE_URL" node scripts/generate-sitemap.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+      - id: pages
+        uses: actions/deploy-pages@v4
