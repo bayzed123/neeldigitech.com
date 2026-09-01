@@ -230,7 +230,7 @@ if (!subdomain) {
   console.log('    Set the WORKERS_SUBDOMAIN repository variable (Settings → Secrets and');
   console.log('    variables → Actions → Variables) to the name you want, e.g. neeldigitech.');
   console.log('    The next deploy registers it and the API becomes');
-  console.log('    https://neeldigitech-api.<name>.workers.dev\n');
+  console.log('    https://neeldigitech.<name>.workers.dev\n');
   console.log('    Or register it by hand: Cloudflare dashboard → Workers & Pages →');
   console.log('    the subdomain prompt shown on first visit.\n');
 }

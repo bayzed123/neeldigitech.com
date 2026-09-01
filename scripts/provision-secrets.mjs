@@ -21,7 +21,7 @@
 import { randomBytes } from 'node:crypto';
 import { client } from './lib/cf.mjs';
 
-const WORKER = process.env.WORKER_NAME ?? 'neeldigitech-api';
+const WORKER = process.env.WORKER_NAME ?? 'neeldigitech';
 const cf = client();
 
 const existing = await cf.call(`/workers/scripts/${WORKER}/secrets`).catch(() => []);

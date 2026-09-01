@@ -21,7 +21,7 @@ const WRANGLER = join(ROOT, 'worker', 'wrangler.toml');
 const D1_NAME = process.env.D1_NAME ?? 'neeldigitech-db';
 const R2_NAME = process.env.R2_NAME ?? 'neeldigitech-media';
 const KV_TITLE = process.env.KV_TITLE ?? 'neeldigitech-cache';
-const WORKER_NAME = process.env.WORKER_NAME ?? 'neeldigitech-api';
+const WORKER_NAME = process.env.WORKER_NAME ?? 'neeldigitech';
 
 const cf = client();
 
@@ -337,7 +337,7 @@ if (apiUrl) {
   console.log('  │                                                                │');
   console.log('  │  a) Set the WORKERS_SUBDOMAIN repository variable to the name  │');
   console.log('  │     you want (e.g. "neeldigitech") and re-run. The API becomes  │');
-  console.log('  │     https://neeldigitech-api.<name>.workers.dev                │');
+  console.log('  │     https://neeldigitech.<name>.workers.dev                │');
   console.log('  │                                                                │');
   console.log('  │  b) Register it once in the Cloudflare dashboard under         │');
   console.log('  │     Workers & Pages, then re-run.                              │');

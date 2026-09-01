@@ -143,7 +143,7 @@ Steps, once the domain's nameservers point at Cloudflare:
 
 **Until the domain is ready**, give the API a temporary address instead: set
 `WORKERS_SUBDOMAIN` to a name you like and the API lands on
-`https://neeldigitech-api.<name>.workers.dev`. That name is account-wide and
+`https://neeldigitech.<name>.workers.dev`. That name is account-wide and
 effectively permanent, so the deploy never invents one — it registers only what
 you ask for.
 

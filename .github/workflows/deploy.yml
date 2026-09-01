@@ -179,11 +179,11 @@ jobs:
       - name: Build
         env:
           VITE_BASE: ${{ steps.site.outputs.base }}
-          VITE_API_BASE: ${{ needs.api.outputs.api_url || vars.API_BASE_URL || 'https://neeldigitech-api.neelsarker15.workers.dev' }}
+          VITE_API_BASE: ${{ needs.api.outputs.api_url || vars.API_BASE_URL || 'https://neeldigitech.neelsarker15.workers.dev' }}
         run: |
           if [ -z "$VITE_API_BASE" ]; then
             echo "::warning::No API address was resolved; using the temporary Worker preview address. The storefront will publish, but product data will appear after the Worker is deployed."
-            export VITE_API_BASE="https://neeldigitech-api.neelsarker15.workers.dev"
+            export VITE_API_BASE="https://neeldigitech.neelsarker15.workers.dev"
           fi
           npm run build --workspace web
 
@@ -203,7 +203,7 @@ jobs:
       - name: Generate sitemap
         if: needs.api.result == 'success'
         env:
-          VITE_API_BASE: ${{ needs.api.outputs.api_url || vars.API_BASE_URL || 'https://neeldigitech-api.neelsarker15.workers.dev' }}
+          VITE_API_BASE: ${{ needs.api.outputs.api_url || vars.API_BASE_URL || 'https://neeldigitech.neelsarker15.workers.dev' }}
           CUSTOM_DOMAIN: ${{ steps.site.outputs.domain }}
           PAGES_BASE: ${{ steps.site.outputs.base }}
         run: |
