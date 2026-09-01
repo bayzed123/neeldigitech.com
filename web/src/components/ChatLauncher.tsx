@@ -58,7 +58,7 @@ export function ChatLauncher({ number, storeName }: { number?: string; storeName
     if (!open) {
       setOpen(true);
       // Reopen straight into an already-started conversation; otherwise ask.
-      setView(turns.length > 0 ? 'ai' : 'choose');
+      setView(aiConfigured ? 'ai' : 'choose');
     } else {
       setOpen(false);
     }
@@ -153,6 +153,9 @@ export function ChatLauncher({ number, storeName }: { number?: string; storeName
                   <strong style={{ fontSize: '0.9rem' }}>🤖 AI সহায়তা</strong>
                   <div className="tiny dim">Delivery, payment, returns — instant answers</div>
                 </div>
+                <button type="button" className="btn ghost sm" onClick={openWhatsApp}>
+                  Human support
+                </button>
                 <button type="button" className="icon-btn" aria-label="Close" onClick={() => setOpen(false)}>
                   ✕
                 </button>
@@ -180,8 +183,11 @@ export function ChatLauncher({ number, storeName }: { number?: string; storeName
                   </div>
                 )}
                 {error && (
-                  <div className="alert error tiny" style={{ alignSelf: 'stretch' }}>
-                    {error}
+                  <div className="stack gap-8" style={{ alignSelf: 'stretch' }}>
+                    <div className="alert error tiny">{error}</div>
+                    <button type="button" className="btn ghost sm" onClick={openWhatsApp}>
+                      Continue with human support
+                    </button>
                   </div>
                 )}
               </div>
