@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="web/public/brand/logo.svg" alt="Arif Gadgets" width="330">
+  <img src="web/public/brand/logo.svg" alt="neeldigitech.com
+/
+
+" width="330">
   <p><strong>Wholesale gadget marketplace — Cloudflare Workers + D1 API, GitHub Pages storefront.</strong></p>
 </div>
 
