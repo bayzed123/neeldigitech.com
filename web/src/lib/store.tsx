@@ -458,9 +458,9 @@ export function useTheme(): [Theme, (next: Theme) => void] {
   const [theme, setThemeState] = useState<Theme>(() => {
     try {
       const saved = localStorage.getItem(THEME_KEY);
-      return saved === 'light' || saved === 'dark' ? saved : 'system';
+      return saved === 'light' || saved === 'dark' ? saved : 'light';
     } catch {
-      return 'system';
+      return 'light';
     }
   });
 
