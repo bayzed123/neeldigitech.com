@@ -22,7 +22,8 @@ const API = 'https://www.googleapis.com/tagmanager/v2';
 // since there is only ever one right answer for "the container on our
 // site". Exported so admin.ts and devReport.ts share the same constant
 // rather than each hardcoding their own copy of it.
-export const GTM_PUBLIC_ID = 'GTM-MGQ6S4HX';
+// No GTM container ID was provided; the site uses the GA4 Google tag directly.
+export const GTM_PUBLIC_ID = '';
 
 export type GtmResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -83,6 +84,7 @@ export interface GtmSummary {
  * are not derivable from the public ID alone.
  */
 export async function gtmSummary(env: Env, publicId: string): Promise<GtmResult<GtmSummary>> {
+  if (!publicId) return { ok: false, error: 'Google Tag Manager is not configured for this site.' };
   const auth = await googleAccessToken(env, SCOPE);
   const early = fromAuth<GtmSummary>(auth);
   if (early) return early;

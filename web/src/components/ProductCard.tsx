@@ -41,7 +41,11 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="card">
-      <Link to={`/product/${product.slug}`} className="card-media">
+      <Link
+        to={`/product/${product.slug}`}
+        className="card-media"
+        onClick={() => trackSelectItem('Product card', product)}
+      >
         {product.discount_pct > 0 && <span className="ribbon">-{product.discount_pct}%</span>}
         {product.featured && product.discount_pct === 0 && <span className="ribbon gold">Featured</span>}
         {!product.in_stock && <span className="soldout">Sold out</span>}
@@ -59,7 +63,11 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="card-body">
         <span className="card-brand">{product.brand || product.category?.name}</span>
-        <Link to={`/product/${product.slug}`} className="card-name clamp-2">
+        <Link
+          to={`/product/${product.slug}`}
+          className="card-name clamp-2"
+          onClick={() => trackSelectItem('Product card', product)}
+        >
           {product.name}
         </Link>
 
