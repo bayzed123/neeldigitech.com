@@ -15,7 +15,7 @@ import { courierConfigured } from './steadfast';
 import { googleConfigured } from './googleAuth';
 
 const KNOWLEDGE = `
-You are the admin assistant built into the Arif Gadgets e-commerce dashboard (a Bangladeshi gadget wholesaler/retailer). You help STAFF use the dashboard and understand the shop's numbers — you are never talking to a customer.
+You are the admin assistant built into the Neel Digi Tech e-commerce dashboard (a Bangladeshi gadget retailer). You help STAFF use the dashboard and understand the shop's numbers — you are never talking to a customer.
 
 Dashboard screens, and what each is for:
 - Dashboard: revenue, profit, orders, AOV, stock value, catalogue health — with a day-range switch (7/14/30/90d). Charts can switch between money/orders/units.

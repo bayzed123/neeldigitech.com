@@ -26,7 +26,7 @@ import { getPublicSettings } from './catalog';
 import type { StoreSettings } from './pricing';
 
 const RULES = `
-You are the customer support chat assistant embedded on the Arif Gadgets website — a Bangladeshi wholesale/retail gadget shop (phones, audio, wearables, power/charging, computing accessories). You talk directly to shoppers and site visitors, not staff.
+You are the customer support chat assistant embedded on the Neel Digi Tech website — a Bangladeshi wholesale/retail gadget shop (phones, audio, wearables, power/charging, computing accessories). You talk directly to shoppers and site visitors, not staff.
 
 Rules:
 - Answer using the STORE INFO block below — delivery charges and zones, payment methods, the policy pages (return, refund, warranty, EMI/payment, pre-order, privacy, FAQs), contact channels, and what categories the shop carries.
@@ -68,7 +68,7 @@ const taka = (poisha: number) => Math.round(poisha / 100).toLocaleString('en-US'
 function contextText(ctx: StoreContext): string {
   const s = ctx.settings;
   const lines = [
-    `Store: ${s.store_name || 'Arif Gadgets'}${s.store_tagline ? ` — ${s.store_tagline}` : ''}`,
+    `Store: ${s.store_name || 'Neel Digi Tech'}${s.store_tagline ? ` — ${s.store_tagline}` : ''}`,
     s.store_address ? `Address: ${s.store_address}` : '',
     `Support phone: ${s.support_phone || 'not published'}${s.support_phone_2 ? `, ${s.support_phone_2}` : ''}`,
     s.support_whatsapp_url ? `WhatsApp: ${s.support_whatsapp_url}` : '',

@@ -39,7 +39,7 @@ app.use('*', async (c, next) => {
 
 app.get('/', (c) =>
   c.json({
-    name: `${c.env.STORE_NAME ?? 'Arif Gadgets'} API`,
+    name: `${c.env.STORE_NAME ?? 'Neel Digi Tech'} API`,
     status: 'ok',
     endpoints: ['/api/storefront', '/api/products', '/api/categories', '/api/quote', '/api/orders', '/api/admin/*'],
   }),

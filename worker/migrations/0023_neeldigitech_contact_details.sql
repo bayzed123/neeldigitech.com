@@ -1,6 +1,11 @@
 -- Neel Digi Tech white-label contact details.
 -- This forward migration also updates an already-provisioned database.
 INSERT OR REPLACE INTO settings (key, value, updated_at) VALUES
+  ('store_name', 'Neel Digi Tech', strftime('%s','now')),
+  ('legal_name', 'NEEL DIGI TECH', strftime('%s','now')),
+  ('owner_name', 'Neel Digi Tech', strftime('%s','now')),
+  ('store_address', '', strftime('%s','now')),
+  ('credit_author_url', '', strftime('%s','now')),
   ('support_email', 'neeldigitech@gmail.com', strftime('%s','now')),
   ('facebook_url', 'https://www.facebook.com/neeldigitech', strftime('%s','now')),
   ('whatsapp_number', '01511922073', strftime('%s','now')),

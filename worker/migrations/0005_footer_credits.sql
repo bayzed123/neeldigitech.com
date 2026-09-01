@@ -11,5 +11,5 @@ INSERT INTO settings (key, value) VALUES ('credit_dev_url', 'https://smartgentoo
 INSERT INTO settings (key, value) VALUES ('credit_author_name', 'Sayad Bayezid')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
-INSERT INTO settings (key, value) VALUES ('credit_author_url', 'https://sayadbayezid.com')
+INSERT INTO settings (key, value) VALUES ('credit_author_url', '')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');

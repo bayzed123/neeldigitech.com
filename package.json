@@ -1,8 +1,8 @@
 {
-  "name": "arif-gadgets",
+  "name": "neeldigitech.com",
   "version": "1.0.0",
   "private": true,
-  "description": "Arif Gadgets — full-stack gadget marketplace on Cloudflare Workers + D1 with a GitHub Pages storefront.",
+  "description": "Neel Digi Tech — full-stack smart technology marketplace on Cloudflare Workers + D1 with a GitHub Pages storefront.",
   "workspaces": [
     "worker",
     "web"

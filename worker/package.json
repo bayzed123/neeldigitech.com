@@ -1,5 +1,5 @@
 {
-  "name": "@arif-gadgets/worker",
+  "name": "@neeldigitech/worker",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -7,8 +7,8 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
-    "migrate:local": "wrangler d1 migrations apply arif-gadgets --local",
-    "migrate:remote": "wrangler d1 migrations apply arif-gadgets --remote"
+    "migrate:local": "wrangler d1 migrations apply neeldigitech-db --local",
+    "migrate:remote": "wrangler d1 migrations apply neeldigitech-db --remote"
   },
   "dependencies": {
     "hono": "^4.6.14"

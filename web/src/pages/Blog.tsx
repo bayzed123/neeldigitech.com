@@ -36,7 +36,7 @@ export function Blog() {
 
   useSeo({
     title: 'Blog',
-    description: 'Product guides, buying advice and shop news from Arif Gadgets.',
+    description: 'Product guides, buying advice and shop news from Neel Digi Tech.',
   });
 
   if (error) return <Empty icon="⚠️" title="Could not load the blog" hint={error} />;

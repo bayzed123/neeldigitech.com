@@ -34,7 +34,7 @@ jobs:
       # schema, the triggers and the analytics without touching Cloudflare.
       - name: Apply migrations to a local D1
         working-directory: worker
-        run: npx wrangler d1 migrations apply arif-gadgets --local
+        run: npx wrangler d1 migrations apply neeldigitech-db --local
 
       - name: Start the Worker
         working-directory: worker

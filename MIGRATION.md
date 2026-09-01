@@ -15,10 +15,10 @@ then.
 
 | Resource | Name | Status |
 |---|---|---|
-| D1 database | `arif-gadgets` | `3c619937-10e9-43ec-9e9f-c0fd0c1da71c` — **built: all 13 migrations applied and verified** |
-| KV namespace | `arif-gadgets-cache` | `a7c032dadfd54f89afd5b01134ec8973` — created |
-| R2 bucket | `arif-gadgets-media` | created — R2 is enabled, so dashboard image upload works |
-| Worker | `arif-gadgets-api` | not deployed yet |
+| D1 database | `neeldigitech-db` | `3c619937-10e9-43ec-9e9f-c0fd0c1da71c` — **built: all 13 migrations applied and verified** |
+| KV namespace | `neeldigitech-cache` | `a7c032dadfd54f89afd5b01134ec8973` — created |
+| R2 bucket | `neeldigitech-media` | created — R2 is enabled, so dashboard image upload works |
+| Worker | `neeldigitech-api` | not deployed yet |
 | workers.dev subdomain | — | **not registered** |
 
 The deploy finds the database and namespace by name and fills `wrangler.toml`
@@ -100,7 +100,7 @@ no API to point at and stops.
 **Fix:** set the `WORKERS_SUBDOMAIN` repository variable (*Settings → Secrets
 and variables → Actions → Variables*) to the name you want — the next deploy
 registers it and the API becomes
-`https://arif-gadgets-api.<name>.workers.dev`. Or register it by hand under
+`https://neeldigitech-api.<name>.workers.dev`. Or register it by hand under
 *Workers & Pages*. The name is account-wide and permanent, and the old
 account's name cannot be reused while that account still holds it.
 

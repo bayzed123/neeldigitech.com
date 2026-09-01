@@ -17,8 +17,8 @@
 import { client } from './lib/cf.mjs';
 
 const cf = client();
-const D1_NAME = process.env.D1_NAME ?? 'arif-gadgets';
-const KV_TITLE = process.env.KV_TITLE ?? 'arif-gadgets-cache';
+const D1_NAME = process.env.D1_NAME ?? 'neeldigitech-db';
+const KV_TITLE = process.env.KV_TITLE ?? 'neeldigitech-cache';
 const SITE_DOMAIN = (process.env.API_DOMAIN ?? '').replace(/^api\./, '') || 'neeldigitech.com';
 
 /** Each entry records one capability so the summary can name the fix. */
@@ -228,9 +228,9 @@ if (!subdomain) {
   console.log('  This account has no workers.dev subdomain, so the Worker has nowhere');
   console.log('  to answer from and the storefront build stops. Pick a name once:\n');
   console.log('    Set the WORKERS_SUBDOMAIN repository variable (Settings → Secrets and');
-  console.log('    variables → Actions → Variables) to the name you want, e.g. arifgadget.');
+  console.log('    variables → Actions → Variables) to the name you want, e.g. neeldigitech.');
   console.log('    The next deploy registers it and the API becomes');
-  console.log('    https://arif-gadgets-api.<name>.workers.dev\n');
+  console.log('    https://neeldigitech-api.<name>.workers.dev\n');
   console.log('    Or register it by hand: Cloudflare dashboard → Workers & Pages →');
   console.log('    the subdomain prompt shown on first visit.\n');
 }

@@ -112,17 +112,17 @@
 | 6 | `web/index.html` | `<title>`, `<meta name="description">`, `og:title`, `og:description` | নতুন শপের নাম ও বর্ণনা দিয়ে বদলান |
 | 7 | `web/src/components/Logo.tsx` | SVG-তে হার্ডকোড করা `"ARIF"`, `"GADGETS"`, `"PREMIUM TECH MARKETPLACE"` টেক্সট, এবং দুই জায়গায় `aria-label="Arif Gadgets"` | নতুন নাম/ট্যাগলাইন বসান, অথবা সম্পূর্ণ নতুন লোগো ডিজাইন করে এই কম্পোনেন্ট রিপ্লেস করুন |
 | 8 | `web/public/brand/logo.svg`, `logo-mark.svg`, `banner.svg` | আসল Arif Gadgets লোগো আর্টওয়ার্ক | নতুন ক্লায়েন্টের লোগো দিয়ে রিপ্লেস করুন (একই ফাইল নাম রাখলে কোডে আর কিছু বদলাতে হবে না) |
-| 9 | `package.json` (root) | `"name": "arif-gadgets"`, `description` | নতুন প্রজেক্টের নাম (শুধু organizational, ফাংশনালিটিতে প্রভাব নেই) |
+| 9 | `package.json` (root) | `"name": "neeldigitech-db"`, `description` | নতুন প্রজেক্টের নাম (শুধু organizational, ফাংশনালিটিতে প্রভাব নেই) |
 | 10 | `CNAME` | `arifgadget.store` | নতুন ক্লায়েন্টের ডোমেইন (বিস্তারিত ধাপ ৭-এ) |
 
 ### 🟢 D1/Worker রিসোর্স নাম — কনসিস্টেন্ট রাখুন (অপশনাল কিন্তু ভালো অভ্যাস)
 
-নিচের **৪টা জায়গায়** একই D1 ডাটাবেজ নাম (`arif-gadgets`) ব্যবহার হয় — বদলাতে চাইলে **সবগুলো একসাথে, একই বানানে** বদলাতে হবে, নাহলে migration চালানোর সময় error দেবে ("database not found"):
+নিচের **৪টা জায়গায়** একই D1 ডাটাবেজ নাম (`neeldigitech-db`) ব্যবহার হয় — বদলাতে চাইলে **সবগুলো একসাথে, একই বানানে** বদলাতে হবে, নাহলে migration চালানোর সময় error দেবে ("database not found"):
 
 1. `worker/wrangler.toml` → `[[d1_databases]]` ব্লকের `database_name`
-2. `worker/package.json` → `migrate:local` ও `migrate:remote` স্ক্রিপ্টে `wrangler d1 migrations apply arif-gadgets ...`
+2. `worker/package.json` → `migrate:local` ও `migrate:remote` স্ক্রিপ্টে `wrangler d1 migrations apply neeldigitech-db ...`
 3. `.github/workflows/deploy.yml` → "Apply D1 migrations" স্টেপে একই কমান্ড
-4. `worker/wrangler.toml` → `name` (Worker-এর নাম, `arif-gadgets-api`) এবং `[[r2_buckets]]` এর `bucket_name` (`arif-gadgets-media`) — এগুলো বদলানো optional, কিন্তু ব্র্যান্ডিং-এর সাথে মিলিয়ে রাখলে Cloudflare dashboard-এ গুলিয়ে ফেলার সম্ভাবনা কম থাকে
+4. `worker/wrangler.toml` → `name` (Worker-এর নাম, `neeldigitech-api`) এবং `[[r2_buckets]]` এর `bucket_name` (`neeldigitech-media`) — এগুলো বদলানো optional, কিন্তু ব্র্যান্ডিং-এর সাথে মিলিয়ে রাখলে Cloudflare dashboard-এ গুলিয়ে ফেলার সম্ভাবনা কম থাকে
 
 > **টিপ:** যদি সময় বাঁচাতে চান, D1/Worker/R2-এর নাম নাও বদলাতে পারেন — Cloudflare-এ প্রতিটা ক্লায়েন্টের জন্য **আলাদা Cloudflare অ্যাকাউন্ট** ব্যবহার করলে নাম একই থাকলেও কোনো কনফ্লিক্ট হয় না। শুধু 🔴 আর 🟡 সেকশনের আইটেমগুলো বদলানো **বাধ্যতামূলক**।
 
@@ -271,7 +271,7 @@ npm install                 # রুট থেকে — worker + web দুট�
 
 # টার্মিনাল ১ — Backend
 cd worker
-npx wrangler d1 migrations apply arif-gadgets --local   # (D1 নাম বদলে থাকলে সেই নাম দিন)
+npx wrangler d1 migrations apply neeldigitech-db --local   # (D1 নাম বদলে থাকলে সেই নাম দিন)
 npm run dev                 # http://127.0.0.1:8787
 
 # টার্মিনাল ২ — Frontend

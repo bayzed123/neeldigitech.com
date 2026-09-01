@@ -1,4 +1,4 @@
--- Arif Gadgets — catalogue seed. Prices are BDT in poisha (৳1 = 100).
+-- Neel Digi Tech — catalogue seed. Prices are BDT in poisha (৳1 = 100).
 
 INSERT OR IGNORE INTO categories (slug, name, icon, sort_order) VALUES
   ('smartphones', 'Smartphones',   '📱', 1),

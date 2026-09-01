@@ -61,7 +61,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
 
   if (compact) {
     return (
-      <svg viewBox="0 0 72 72" width="72" height="72" role="img" aria-label="Arif Gadgets">
+      <svg viewBox="0 0 72 72" width="72" height="72" role="img" aria-label="Neel Digi Tech">
         <Defs idPrefix={p} />
         <Mark idPrefix={p} />
       </svg>
@@ -69,18 +69,18 @@ export function Logo({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <svg viewBox="0 0 348 72" width="348" height="72" role="img" aria-label="Arif Gadgets">
+    <svg viewBox="0 0 348 72" width="348" height="72" role="img" aria-label="Neel Digi Tech">
       <Defs idPrefix={p} />
       <Mark idPrefix={p} />
       <g fontFamily="var(--font)">
         <text x="84" y="38" fontSize="27" fontWeight="700" letterSpacing="1.2" fill="currentColor">
-          ARIF
+          NEEL
         </text>
         <text x="152" y="38" fontSize="27" fontWeight="700" letterSpacing="1.2" fill={`url(#${p}word)`}>
-          GADGETS
+          DIGI TECH
         </text>
         <text x="85" y="55" fontSize="9.5" fontWeight="600" letterSpacing="3.5" fill="currentColor" opacity="0.55">
-          PREMIUM TECH MARKETPLACE
+          SMART TECH MARKETPLACE
         </text>
       </g>
     </svg>

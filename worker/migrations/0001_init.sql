@@ -1,4 +1,4 @@
--- Arif Gadgets — core schema
+-- Neel Digi Tech — core schema
 -- Money is stored in minor units (poisha/cents) as INTEGER to avoid float drift.
 
 CREATE TABLE IF NOT EXISTS admins (
@@ -322,7 +322,7 @@ INSERT OR IGNORE INTO settings (key, value) VALUES
   ('shipping_flat',         '8000'),
   ('free_shipping_over',    '500000'),
   ('tax_pct',               '0'),
-  ('store_name',            'Arif Gadgets'),
+  ('store_name',            'Neel Digi Tech'),
   ('store_tagline',         'Premium Tech Marketplace'),
   ('support_phone',         '+880 1700-000000'),
   ('support_email',         'neeldigitech@gmail.com');

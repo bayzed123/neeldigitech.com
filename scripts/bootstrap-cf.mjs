@@ -18,10 +18,10 @@ import { client, isAlreadyExists } from './lib/cf.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WRANGLER = join(ROOT, 'worker', 'wrangler.toml');
 
-const D1_NAME = process.env.D1_NAME ?? 'arif-gadgets';
-const R2_NAME = process.env.R2_NAME ?? 'arif-gadgets-media';
-const KV_TITLE = process.env.KV_TITLE ?? 'arif-gadgets-cache';
-const WORKER_NAME = process.env.WORKER_NAME ?? 'arif-gadgets-api';
+const D1_NAME = process.env.D1_NAME ?? 'neeldigitech-db';
+const R2_NAME = process.env.R2_NAME ?? 'neeldigitech-media';
+const KV_TITLE = process.env.KV_TITLE ?? 'neeldigitech-cache';
+const WORKER_NAME = process.env.WORKER_NAME ?? 'neeldigitech-api';
 
 const cf = client();
 
@@ -336,8 +336,8 @@ if (apiUrl) {
   console.log('  │  the API has no public address. One of these fixes it:         │');
   console.log('  │                                                                │');
   console.log('  │  a) Set the WORKERS_SUBDOMAIN repository variable to the name  │');
-  console.log('  │     you want (e.g. "arifgadgets") and re-run. The API becomes  │');
-  console.log('  │     https://arif-gadgets-api.<name>.workers.dev                │');
+  console.log('  │     you want (e.g. "neeldigitech") and re-run. The API becomes  │');
+  console.log('  │     https://neeldigitech-api.<name>.workers.dev                │');
   console.log('  │                                                                │');
   console.log('  │  b) Register it once in the Cloudflare dashboard under         │');
   console.log('  │     Workers & Pages, then re-run.                              │');

@@ -5,12 +5,12 @@
 
 INSERT OR IGNORE INTO pages (slug, title, section, sort_order, summary, body) VALUES
 ('about-us', 'About Us', 'company', 10,
- 'Who we are and how Arif Gadgets started.',
-'Arif Gadgets is a wholesale and retail gadget supplier based at Zirani, BKSP, Ashulia, Savar, Dhaka. We supply phones, audio, wearables, chargers and accessories to shopkeepers, resellers and walk-in customers across Bangladesh.
+ 'Who we are and how Neel Digi Tech started.',
+'Neel Digi Tech is a smart technology and gadget supplier serving customers, resellers and businesses across Bangladesh.
 
 ## Our owner
 
-The business is owned and run by **Ariful Islam Arif**. What began as a single counter selling smartwatches and earphones now serves retailers nationwide, shipping by the carton at prices that let our partners make a real margin.
+Neel Digi Tech focuses on dependable products, clear pricing and responsive customer service for shoppers, resellers and business buyers.
 
 ## What we do differently
 
@@ -47,7 +47,7 @@ Call us on the numbers listed under Contact Us, or message us on WhatsApp with w
 
 INSERT OR IGNORE INTO pages (slug, title, section, sort_order, summary, body) VALUES
 ('careers', 'Careers', 'company', 30,
- 'Work with us at Arif Gadgets.',
+ 'Work with us at Neel Digi Tech.',
 'We are a small team and we hire when the work demands it, not on a schedule.
 
 ## The kind of people who do well here

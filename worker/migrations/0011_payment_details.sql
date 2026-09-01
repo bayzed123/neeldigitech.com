@@ -14,7 +14,7 @@ INSERT INTO settings (key, value) VALUES ('nagad_number', '01400290828')
 INSERT INTO settings (key, value) VALUES ('rocket_number', '01400290828')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
-INSERT INTO settings (key, value) VALUES ('bank_details', 'Account name: Arif Gadgets · Ask us for the current account number before transferring.')
+INSERT INTO settings (key, value) VALUES ('bank_details', 'Account name: Neel Digi Tech · Ask us for the current account number before transferring.')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
 -- The order number the shop sends money to WhatsApp, so every order can be

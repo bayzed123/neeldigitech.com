@@ -107,7 +107,7 @@ ALTER TABLE products ADD COLUMN returnable INTEGER NOT NULL DEFAULT 1;
 
 -- The registered name, for invoices and anywhere the shop states who it is.
 -- `store_name` stays as the shorter brand used in the site header and logo.
-INSERT INTO settings (key, value) VALUES ('legal_name', 'ARIF GADGET STORE')
+INSERT INTO settings (key, value) VALUES ('legal_name', 'NEEL DIGI TECH')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
 INSERT INTO settings (key, value) VALUES ('support_email', 'neeldigitech@gmail.com')

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * End-to-end check of the Arif Gadgets API.
+ * End-to-end check of the Neel Digi Tech API.
  *
  *   node scripts/smoke-test.mjs [baseUrl]
  *
@@ -57,7 +57,7 @@ async function api(path, { method = 'GET', body, auth = false, expect } = {}) {
 const taka = (poisha) => `৳${(poisha / 100).toLocaleString('en-BD')}`;
 
 async function main() {
-  console.log(`\nArif Gadgets API smoke test → ${BASE}\n`);
+  console.log(`\nNeel Digi Tech API smoke test → ${BASE}\n`);
 
   // ---------------------------------------------------------- public catalogue
   console.log('Catalogue');

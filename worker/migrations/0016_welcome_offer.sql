@@ -1,5 +1,5 @@
 -- The starter offer still carried the wholesale pitch the hero banner used to
--- run: "Volume pricing on every carton". Arif Gadget Store sells single items
+-- run: "Volume pricing on every carton". Neel Digi Tech sells individual items
 -- to walk-in customers, so the strip under the banner was the last place on
 -- the front page still talking to a reseller.
 --
@@ -8,7 +8,7 @@
 -- the shop's own words and this migration must leave them alone. It only
 -- rewrites the row while it still holds the untouched seeded text.
 UPDATE banners
-   SET title = 'Welcome to Arif Gadget Store',
+   SET title = 'Welcome to Neel Digi Tech',
        subtitle = 'Genuine gadgets, honest prices, and cash on delivery anywhere in Bangladesh.',
        link_url = '/catalog',
        cta_label = 'Start shopping'
