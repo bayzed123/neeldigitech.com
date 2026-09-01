@@ -325,4 +325,4 @@ INSERT OR IGNORE INTO settings (key, value) VALUES
   ('store_name',            'Arif Gadgets'),
   ('store_tagline',         'Premium Tech Marketplace'),
   ('support_phone',         '+880 1700-000000'),
-  ('support_email',         'support@arifgadget.store');
+  ('support_email',         'neeldigitech@gmail.com');

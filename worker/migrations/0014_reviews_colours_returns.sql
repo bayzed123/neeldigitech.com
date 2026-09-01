@@ -110,8 +110,8 @@ ALTER TABLE products ADD COLUMN returnable INTEGER NOT NULL DEFAULT 1;
 INSERT INTO settings (key, value) VALUES ('legal_name', 'ARIF GADGET STORE')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
-INSERT INTO settings (key, value) VALUES ('support_email', 'arifgadgetstore@gmail.com')
+INSERT INTO settings (key, value) VALUES ('support_email', 'neeldigitech@gmail.com')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
-INSERT INTO settings (key, value) VALUES ('support_whatsapp_url', 'https://wa.me/8801400290828')
+INSERT INTO settings (key, value) VALUES ('support_whatsapp_url', 'https://wa.me/8801511922073')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');

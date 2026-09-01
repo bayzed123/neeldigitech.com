@@ -62,5 +62,5 @@ END;
 -- Owner and social links
 INSERT INTO settings (key, value) VALUES ('owner_name', 'Ariful Islam Arif')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
-INSERT INTO settings (key, value) VALUES ('facebook_url', 'https://www.facebook.com/arifgadgetstore')
+INSERT INTO settings (key, value) VALUES ('facebook_url', 'https://www.facebook.com/neeldigitech')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');

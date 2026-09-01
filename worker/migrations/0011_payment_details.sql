@@ -19,7 +19,7 @@ INSERT INTO settings (key, value) VALUES ('bank_details', 'Account name: Arif Ga
 
 -- The order number the shop sends money to WhatsApp, so every order can be
 -- forwarded as a message the moment it is placed.
-INSERT INTO settings (key, value) VALUES ('order_whatsapp', '8801400290828')
+INSERT INTO settings (key, value) VALUES ('order_whatsapp', '8801511922073')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
 -- What the customer typed after sending money: a bKash/Nagad/Rocket TrxID, or

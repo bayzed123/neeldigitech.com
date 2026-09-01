@@ -33,7 +33,7 @@ const LABELS: Record<string, { label: string; hint: string }> = {
   nagad_number: { label: 'Nagad number', hint: 'Shown to the customer when they choose Nagad' },
   rocket_number: { label: 'Rocket number', hint: 'Shown to the customer when they choose Rocket' },
   bank_details: { label: 'Bank transfer details', hint: 'Shown when the customer chooses bank transfer' },
-  order_whatsapp: { label: 'Order WhatsApp number', hint: 'Where the "Send order on WhatsApp" button sends orders, e.g. 8801400290828' },
+  order_whatsapp: { label: 'Order WhatsApp number', hint: 'Where the "Send order on WhatsApp" button sends orders, e.g. 8801511922073' },
   currency: { label: 'Currency code', hint: 'e.g. BDT' },
   currency_symbol: { label: 'Currency symbol', hint: 'e.g. ৳' },
   shipping_dhaka: { label: 'Delivery inside Dhaka (৳)', hint: 'Charged when the shopper picks "Inside Dhaka"' },
@@ -42,7 +42,7 @@ const LABELS: Record<string, { label: string; hint: string }> = {
   tax_pct: { label: 'Tax percentage', hint: 'Applied to the net order value. 0 disables it.' },
   site_url: {
     label: 'Live storefront URL',
-    hint: 'e.g. https://arifgadget.store — used by the daily site health check to confirm the live site is actually up',
+    hint: 'e.g. https://neeldigitech.com — used by the daily site health check to confirm the live site is actually up',
   },
 };
 

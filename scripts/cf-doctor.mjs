@@ -19,7 +19,7 @@ import { client } from './lib/cf.mjs';
 const cf = client();
 const D1_NAME = process.env.D1_NAME ?? 'arif-gadgets';
 const KV_TITLE = process.env.KV_TITLE ?? 'arif-gadgets-cache';
-const SITE_DOMAIN = (process.env.API_DOMAIN ?? '').replace(/^api\./, '') || 'arifgadget.store';
+const SITE_DOMAIN = (process.env.API_DOMAIN ?? '').replace(/^api\./, '') || 'neeldigitech.com';
 
 /** Each entry records one capability so the summary can name the fix. */
 const results = [];

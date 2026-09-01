@@ -12,5 +12,5 @@ INSERT INTO settings (key, value) VALUES ('support_phone_2', '01400-290812')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
 
 -- The floating chat button dials this one.
-INSERT INTO settings (key, value) VALUES ('whatsapp_number', '01400-290828')
+INSERT INTO settings (key, value) VALUES ('whatsapp_number', '01511922073')
   ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s','now');
