@@ -165,10 +165,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
         run: |
-          # The temporary preview must remain on the repository Pages path.
-          # A custom domain is used only when the user explicitly sets
-          # CUSTOM_DOMAIN later, after preview verification is complete.
+          # Prefer the explicit repository variable, but also detect the
+          # custom domain already configured in GitHub Pages. This prevents a
+          # root-domain deployment from accidentally being built with the
+          # project-path asset prefix (/neeldigitech.com/), which renders blank.
           DOMAIN="$CUSTOM_DOMAIN"
+          if [ -z "$DOMAIN" ]; then
+            DOMAIN="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.cname // empty' 2>/dev/null || true)"
+          fi
+          DOMAIN="${DOMAIN#https://}"
+          DOMAIN="${DOMAIN#http://}"
+          DOMAIN="${DOMAIN%%/*}"
           if [ -n "$DOMAIN" ]; then
             echo "Publishing to https://$DOMAIN (base /)"
             echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
