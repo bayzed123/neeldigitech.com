@@ -51,7 +51,7 @@ jobs:
             API_URL="https://$API_DOMAIN"
           fi
           if [ -z "$API_URL" ] && [ -n "$WORKERS_SUBDOMAIN" ]; then
-            API_URL="https://arif-gadgets-api.$WORKERS_SUBDOMAIN.workers.dev"
+            API_URL="https://neelsarker15.workers.dev.$WORKERS_SUBDOMAIN.workers.dev"
           fi
           if [ -z "$API_URL" ]; then
             echo "::error::No API address resolved. Set API_DOMAIN, API_BASE_URL, or WORKERS_SUBDOMAIN as a repository variable — whichever the deploy workflow already uses."
