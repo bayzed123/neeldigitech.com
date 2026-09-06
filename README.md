@@ -245,6 +245,10 @@ Cost price, profit and margin are **never** included in public responses.
 [ADMIN_GUIDE.md](ADMIN_GUIDE.md)** — adding products, volume tiers, photos, stock,
 order fulfilment, restocking and the recommended daily routine.
 
+**[LOGO_GUIDE.md](LOGO_GUIDE.md)** is a short Bangla walkthrough of replacing the
+header and footer logo from Settings, written to be handed to the shop owner on
+its own.
+
 ### Security
 
 - `ALLOWED_ORIGINS` in `worker/wrangler.toml` is empty, which lets any origin call the API.
