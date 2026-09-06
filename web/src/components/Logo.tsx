@@ -1,6 +1,11 @@
 /**
  * Inlined rather than loaded from /brand/logo.svg so the wordmark can pick up
  * `currentColor` and stay legible in both themes.
+ *
+ * A shop that has uploaded its own logo in Settings → Brand passes `src` and
+ * gets that image instead. The bundled wordmark stays as the fallback rather
+ * than being deleted: a brand-new install has nothing uploaded yet, and an
+ * empty header is worse than a generic one.
  */
 
 function Mark({ idPrefix }: { idPrefix: string }) {
@@ -56,8 +61,21 @@ function Defs({ idPrefix }: { idPrefix: string }) {
   );
 }
 
-export function Logo({ compact = false }: { compact?: boolean }) {
+export function Logo({
+  compact = false,
+  src = '',
+  alt = 'Neel Digi Tech',
+}: {
+  compact?: boolean;
+  /** An uploaded logo. Empty falls back to the bundled wordmark below. */
+  src?: string;
+  alt?: string;
+}) {
   const p = compact ? 'lc' : 'lf';
+
+  // Height comes from CSS so the uploaded image lines up with the wordmark it
+  // replaces; only the aspect ratio is the shop's to decide.
+  if (src) return <img src={src} alt={alt} className="brand-logo-img" />;
 
   if (compact) {
     return (

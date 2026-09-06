@@ -168,6 +168,15 @@ const PUBLIC_SETTING_KEYS = [
   'order_whatsapp',
   /** Uploaded from Settings → Homepage. Empty means "use the bundled default banner". */
   'hero_banner_url',
+  /**
+   * Uploaded from Settings → Brand. Empty means "use the bundled SVG wordmark",
+   * which is what every install starts with. The header and the footer are
+   * separate keys on purpose: the footer sits on a dark panel, so a shop whose
+   * logo has dark lettering needs a light variant there and would otherwise
+   * have to choose which of the two places to look wrong in.
+   */
+  'logo_url',
+  'logo_footer_url',
 ] as const;
 
 export async function getPublicSettings(env: Env): Promise<StoreSettings & Record<string, string>> {

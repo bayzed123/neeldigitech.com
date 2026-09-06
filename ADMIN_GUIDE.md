@@ -1,4 +1,4 @@
-# Arif Gadgets — Admin Dashboard Guide
+# Neel Digi Tech — Admin Dashboard Guide
 
 Everything you can do from the dashboard, start to finish. No technical
 knowledge needed.
@@ -30,16 +30,16 @@ knowledge needed.
 ## 1. Signing in
 
 Type your site address with `/admin` on the end —
-`https://arifgadget.store/admin`. There is deliberately **no link to the
+`https://neeldigitech.com/admin`. There is deliberately **no link to the
 dashboard anywhere on the public site**, so customers never see it; bookmark
 the address instead.
 
 | | |
 |---|---|
-| **Username** | `arifgadget` |
+| **Username** | `neeldigitech` |
 | **Password** | set when the site was deployed |
 
-The username is not case-sensitive — `ArifGadget` works too.
+The username is not case-sensitive — `NeelDigiTech` works too.
 
 **Change the password after your first sign-in.** The password was shared in a
 chat message while the site was being built, so treat it as known to others.
@@ -383,6 +383,28 @@ status buttons filter the list.
 | **Tax percentage** | Applied to the order value. Leave at `0` if you do not charge tax. |
 
 Enter money in taka — the system stores it precisely behind the scenes.
+
+### Your logo
+
+At the top of the Settings page is a **Logo** panel with two slots.
+
+| Slot | Where it appears |
+|---|---|
+| **Header logo** | The top of every page on the site. Shown 42 pixels tall. |
+| **Footer logo** | The dark panel at the bottom of every page. |
+
+Press **Upload**, pick your file, and it is live immediately — no redeploy and
+no developer. Press **Replace** to change it later, or **Remove** to go back to
+the built-in logo.
+
+**Leave the footer slot empty and your header logo is used in both places.**
+Only upload a separate footer logo if your logo has dark lettering that
+disappears against the dark footer — then upload a light version there.
+
+Best results: a wide image around **600 × 160 pixels** with a transparent
+background, PNG or SVG, under 5 MB. A square logo will still work, it will just
+be small. The same **Homepage banner** panel below it replaces the wide image
+across the top of the shop front.
 
 The **Footer build credits** shown at the bottom of that panel are fixed. They
 are displayed for reference but cannot be edited from the dashboard by any role,

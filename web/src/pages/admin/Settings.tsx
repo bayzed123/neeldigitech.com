@@ -135,6 +135,154 @@ function HeroBannerPanel({
 }
 
 /**
+ * The shop's own logo, for the header and the footer. Both used to live in a
+ * bundled SVG component that only a redeploy could change, which meant every
+ * white-label install needed a developer just to swap a picture.
+ *
+ * Two slots rather than one because the footer sits on the dark navy panel: a
+ * logo with dark lettering is invisible there, and a shop with one would
+ * otherwise have to pick which of the two places to look wrong in. Leaving the
+ * footer empty reuses the header logo, which is what most shops want.
+ */
+function BrandLogoPanel({
+  headerUrl,
+  footerUrl,
+  onSaved,
+  canEdit,
+}: {
+  headerUrl: string;
+  footerUrl: string;
+  onSaved: (key: 'logo_url' | 'logo_footer_url', url: string) => void;
+  canEdit: boolean;
+}) {
+  const toast = useToast();
+  const [busySlot, setBusySlot] = useState<'logo_url' | 'logo_footer_url' | ''>('');
+  const headerInput = useRef<HTMLInputElement>(null);
+  const footerInput = useRef<HTMLInputElement>(null);
+
+  async function save(key: 'logo_url' | 'logo_footer_url', next: string) {
+    setBusySlot(key);
+    try {
+      await api('/api/admin/settings', { method: 'PATCH', auth: true, body: { [key]: next } });
+      onSaved(key, next);
+      toast(next ? 'Logo updated' : 'Logo reset to the built-in one', 'success');
+    } catch (err) {
+      toast(err instanceof ApiError ? err.message : 'Could not save the logo', 'error');
+    } finally {
+      setBusySlot('');
+    }
+  }
+
+  async function onFile(key: 'logo_url' | 'logo_footer_url', file: File) {
+    setBusySlot(key);
+    try {
+      const uploaded = await uploadImage(file);
+      await save(key, uploaded.url);
+    } catch (err) {
+      toast(err instanceof ApiError ? err.message : 'Upload failed', 'error');
+      setBusySlot('');
+    }
+  }
+
+  const slots = [
+    {
+      key: 'logo_url' as const,
+      title: 'Header logo',
+      note: 'Top of every page. Shown at 42 pixels tall.',
+      url: headerUrl,
+      input: headerInput,
+      dark: false,
+      // The header sits on the page background, so preview it there.
+      preview: headerUrl,
+    },
+    {
+      key: 'logo_footer_url' as const,
+      title: 'Footer logo',
+      note: headerUrl && !footerUrl ? 'Empty — the header logo is being used here.' : 'Sits on the dark footer panel.',
+      url: footerUrl,
+      input: footerInput,
+      dark: true,
+      preview: footerUrl || headerUrl,
+    },
+  ];
+
+  return (
+    <div className="panel">
+      <div className="panel-head">
+        <div>
+          <h3>Logo</h3>
+          <p className="tiny dim">
+            Your own logo in the header and footer. It goes live the moment it saves — no redeploy, no developer.
+          </p>
+        </div>
+      </div>
+      <div className="panel-body stack gap-16">
+        <div className="form-grid">
+          {slots.map((slot) => (
+            <div className="stack gap-8" key={slot.key}>
+              <strong className="small">{slot.title}</strong>
+              <div
+                style={{
+                  background: slot.dark ? '#0F172A' : 'var(--surface-inset)',
+                  border: '1px solid var(--line)',
+                  borderRadius: 12,
+                  padding: 16,
+                  minHeight: 84,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {slot.preview ? (
+                  <img
+                    src={mediaUrl(slot.preview)}
+                    alt={`Current ${slot.title.toLowerCase()}`}
+                    style={{ height: 44, width: 'auto', maxWidth: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <span className="tiny dim">Using the built-in logo</span>
+                )}
+              </div>
+              {canEdit && (
+                <div className="row gap-8 wrap-row">
+                  <button
+                    className="btn ghost sm"
+                    disabled={busySlot !== ''}
+                    onClick={() => slot.input.current?.click()}
+                  >
+                    {busySlot === slot.key ? 'Uploading…' : slot.url ? 'Replace' : 'Upload'}
+                  </button>
+                  <input
+                    ref={slot.input}
+                    type="file"
+                    accept="image/png,image/svg+xml,image/webp,image/jpeg,image/avif"
+                    hidden
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      e.target.value = '';
+                      if (file) void onFile(slot.key, file);
+                    }}
+                  />
+                  {slot.url && (
+                    <button className="btn ghost sm" disabled={busySlot !== ''} onClick={() => save(slot.key, '')}>
+                      Remove
+                    </button>
+                  )}
+                </div>
+              )}
+              <span className="hint">{slot.note}</span>
+            </div>
+          ))}
+        </div>
+        <p className="tiny dim">
+          Best results: a wide logo around 600 × 160 pixels on a transparent background — PNG or SVG, under 5 MB.
+          Leave the footer one empty and the header logo is used in both places.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/**
  * The shop runs more than one Steadfast account. This panel lets staff add,
  * switch and remove them without touching a GitHub secret or waiting on a
  * redeploy — a key typed in here works on the very next courier call. Keys
@@ -498,7 +646,13 @@ export function Settings() {
         </div>
       </div>
 
-      <div style={{ marginBottom: 24 }}>
+      <div className="stack gap-16" style={{ marginBottom: 24 }}>
+        <BrandLogoPanel
+          headerUrl={values.logo_url ?? ''}
+          footerUrl={values.logo_footer_url ?? ''}
+          canEdit={canEdit}
+          onSaved={(key, next) => setValues((prev) => ({ ...prev, [key]: next }))}
+        />
         <HeroBannerPanel
           url={values.hero_banner_url ?? ''}
           canEdit={canEdit}
