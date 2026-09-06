@@ -274,6 +274,14 @@ h3 { font-size: 1.1rem; }
 }
 .brand-link { flex-shrink: 0; color: var(--ink); }
 .brand-link svg { height: 42px; width: auto; }
+/*
+ * An uploaded logo is height-matched to the wordmark it replaces so the header
+ * does not change height when a shop uploads one. max-width keeps a very wide
+ * image from crushing the search bar next to it on narrow screens.
+ */
+.brand-link .brand-logo-img { height: 42px; width: auto; max-width: 210px; object-fit: contain; display: block; }
+.footer-logo .brand-logo-img { height: 46px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+.footer-logo svg { max-width: 100%; height: auto; }
 
 .searchbar {
   flex: 1;
@@ -1141,6 +1149,7 @@ table.data td.num, table.data th.num { text-align: right; font-variant-numeric: 
   .header .wrap { flex-wrap: wrap; padding-block: 10px; gap: 10px; }
   .searchbar { order: 3; flex-basis: 100%; }
   .brand-link svg { height: 36px; }
+  .brand-link .brand-logo-img { height: 36px; max-width: 150px; }
   .prod-grid { grid-template-columns: repeat(auto-fill, minmax(152px, 1fr)); gap: 10px; }
   .card-name { font-size: 0.86rem; }
   .spec-list > div { grid-template-columns: 1fr; gap: 2px; }

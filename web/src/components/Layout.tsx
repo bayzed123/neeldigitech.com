@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { api } from '../lib/api';
+import { api, mediaUrl } from '../lib/api';
 import { setCurrencySymbol } from '../lib/format';
 import { useCart, useTheme, useWishlist } from '../lib/store';
 import type { Category, PageLink, StoreSettings } from '../lib/types';
@@ -92,6 +92,9 @@ export function Layout() {
   }
 
   const nextTheme = theme === 'dark' ? 'light' : 'dark';
+  // Settings arrive a moment after first paint; the bundled name keeps the
+  // alt text and aria-label meaningful in the meantime.
+  const brandName = settings?.store_name || 'Neel Digi Tech';
 
   // Sitewide structured data — Organization (so a knowledge-panel-style
   // result has somewhere to pull from) and WebSite with a SearchAction
@@ -147,8 +150,8 @@ export function Layout() {
             </span>
           </button>
 
-          <Link to="/" className="brand-link" aria-label="Neel Digi Tech home">
-            <Logo />
+          <Link to="/" className="brand-link" aria-label={`${brandName} home`}>
+            <Logo src={mediaUrl(settings?.logo_url ?? '')} alt={brandName} />
           </Link>
 
           <form className="searchbar" onSubmit={search} role="search">
@@ -251,8 +254,8 @@ export function Layout() {
 
           <div className="footer-grid">
             <div>
-              <div style={{ color: '#fff', marginBottom: 12 }}>
-                <Logo />
+              <div className="footer-logo" style={{ color: '#fff', marginBottom: 12 }}>
+                <Logo src={mediaUrl(settings?.logo_footer_url || settings?.logo_url || '')} alt={brandName} />
               </div>
               {/*
                 Was the same "wholesale, priced by the carton" pitch as the old

@@ -88,6 +88,10 @@ export interface StoreSettings {
   facebook_url?: string;
   /** Set from Settings → Homepage. Empty/absent means the bundled default banner. */
   hero_banner_url?: string;
+  /** Set from Settings → Brand. Empty/absent means the bundled SVG wordmark. */
+  logo_url?: string;
+  /** Footer variant, for logos that need light lettering on the dark panel. */
+  logo_footer_url?: string;
 }
 
 export interface QuoteLine {

@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+web/dist/
+*.tsbuildinfo
+
+# Local Cloudflare state: the miniflare D1/R2/KV data a `wrangler dev --local`
+# run creates. Machine-local and often large.
+.wrangler/
+worker/.wrangler/
+
+# Secrets. .dev.vars holds the local JWT_SECRET and, on a machine set up for
+# the Google features, the whole service-account key. It must never be
+# committed — this line is the only thing standing between a stray
+# `git add -A` and publishing it.
+.dev.vars
+worker/.dev.vars
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Test artefacts
+tests/*.png
